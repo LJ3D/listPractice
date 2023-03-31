@@ -61,12 +61,19 @@ public:
             this->cached.idx = idx;
             return this->cached.n->v;
         }
-        node<T>* cn = this->h;
-        for(int i=0; i<idx; i++){
-            cn = cn->n;
+        node<T>* cn = (idx>this->l/2)?this->t:this->h;
+        if(idx > this->l/2){
+            for(int i=this->l-1; i>idx; i--){
+                cn = cn->l;
+            }
+        }else{
+            for(int i=0; i<idx; i++){
+                cn = cn->n;
+            }
         }
         this->cached.n = cn;
         this->cached.idx = idx;
+
         return cn->v;
     }
 
@@ -85,7 +92,7 @@ public:
             this->t = this->t->l;
             delete tmp;
 
-        }else if(idx > this->l/2){ // Go backwards if idx is greater than l/2, less iterations require
+        }else if(idx > this->l/2){ // Go backwards if idx is greater than l/2, less iterations required
             node<T>* cn = this->t;
             node<T>* fn = this->t;
             for(int i=this->l-1; i>idx; i--){
