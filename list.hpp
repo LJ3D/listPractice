@@ -37,18 +37,19 @@ public:
         if(idx > this->l){
             throw std::out_of_range("Index out of range");
         }
-        node<T>* cn = this->h;
-        node<T>* bn = this->h;
-        for(int i=0; i<idx; i++){
-            cn = cn->n;
-            if(i<idx-1){
-                bn = cn;
-            }
-        }
-        if(bn == cn){
-            this->h = cn->n;
-            delete cn;
+        if(idx==0){
+            node<T>* tmp = this->h;
+            this->h = this->h->n;
+            delete tmp;
         }else{
+            node<T>* cn = this->h;
+            node<T>* bn = this->h;
+            for(int i=0; i<idx; i++){
+                cn = cn->n;
+                if(i<idx-1){
+                    bn = cn;
+                }
+            }
             bn->n = cn->n;
             delete cn;
         }
