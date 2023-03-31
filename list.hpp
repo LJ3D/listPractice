@@ -6,10 +6,17 @@ struct node{
 };
 
 template <typename T>
+struct cachedNode{
+    node<T>* n;
+    size_t idx;
+};
+
+template <typename T>
 class list{
 private:
     node<T>* h = new node<T>;
     node<T>* t = new node<T>;
+    cachedNode<T> cached;
     size_t l = 0;
 
 public:
@@ -45,10 +52,21 @@ public:
         if(idx > this->l){
             throw std::out_of_range("Index out of range");
         }
+        if(this->cached.idx == idx-1){
+            this->cached.n = this->cached.n->n;
+            this->cached.idx = idx;
+            return this->cached.n->v;
+        }else if(this->cached.idx == idx+1){
+            this->cached.n = this->cached.n->l;
+            this->cached.idx = idx;
+            return this->cached.n->v;
+        }
         node<T>* cn = this->h;
         for(int i=0; i<idx; i++){
             cn = cn->n;
         }
+        this->cached.n = cn;
+        this->cached.idx = idx;
         return cn->v;
     }
 
