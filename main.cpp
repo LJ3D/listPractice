@@ -78,7 +78,7 @@ int main(){
     auto allEnd = std::chrono::high_resolution_clock::now();
 
 
-
+    std::cout << "\n\n\n====================\n";
     std::cout << "Benchmark results with a list of " << BENCHMARK_N << " elements:" << std::endl;
     std::cout << "Append: " << std::chrono::duration_cast<std::chrono::milliseconds>(appendEnd-appendStart).count() << "ms" << std::endl;
     std::cout << "Insert: " << "N/A" << std::endl;
