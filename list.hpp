@@ -97,7 +97,6 @@ public:
             delete tmp;
         }else{
             node<T>* toRemove = this->getNode(idx);
-            std::cout << "remove debug info: " << toRemove->val << " " << toRemove->prev->val << " " << toRemove->next->val << "\n";
             toRemove->prev->next = toRemove->next;
             toRemove->next->prev = toRemove->prev;
             delete toRemove;
