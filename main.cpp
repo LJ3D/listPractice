@@ -78,7 +78,7 @@ int main(){
 
 int main(){
     srand(time(NULL));
-    list<int> lst;
+    LJLIST::list<int> lst;
 
     // ====== APPEND
     auto allStart = std::chrono::high_resolution_clock::now();
@@ -160,7 +160,7 @@ int main(){
     std::cout << "Benchmark results with a list of " << BENCHMARK_N << " elements:" << std::endl;
     std::cout << "Append: " << std::chrono::duration_cast<std::chrono::milliseconds>(appendEnd-appendStart).count() << "ms" << std::endl;
     std::cout << "Prepend: " << std::chrono::duration_cast<std::chrono::milliseconds>(prependEnd-prependStart).count() << "ms" << std::endl;
-    std::cout << "Insert: " << "N/A" << std::endl;
+    std::cout << "Insert: " << std::chrono::duration_cast<std::chrono::milliseconds>(insertEnd-insertStart).count() << "ms" << std::endl;
     std::cout << "Get (sequential): " << std::chrono::duration_cast<std::chrono::milliseconds>(getSequentialEnd-getSequentialStart).count() << "ms" << std::endl;
     std::cout << "Get (sequential backwards): " << std::chrono::duration_cast<std::chrono::milliseconds>(getSequentialBackwardsEnd-getSequentialBackwardsStart).count() << "ms" << std::endl;
     std::cout << "Get (random positions): " << std::chrono::duration_cast<std::chrono::milliseconds>(getRandomEnd-getRandomStart).count() << "ms" << std::endl;

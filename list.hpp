@@ -1,3 +1,5 @@
+namespace LJLIST{
+
 template <typename T>
 struct node{
     node* next;
@@ -26,12 +28,9 @@ private:
     node<T>* getNode(size_t idx){
         node<T>* fetchedNode;
         // Check if cached idx is closer to the target idx than the head or the tail
-        if((
-                (this->cached.idx > idx && this->cached.idx-idx < idx)  // cached idx is closer to the target idx than the head
-            ||  (idx-this->cached.idx < this->listLen-idx) // cached idx is closer to the target idx than the tail
-            ) 
-            && this->cachedSet // cached node isnt invalid
-        ){
+        if(((this->cached.idx > idx && this->cached.idx-idx < idx)  // cached idx is closer to the target idx than the head
+            || (idx-this->cached.idx < this->listLen-idx)) // cached idx is closer to the target idx than the tail 
+            && this->cachedSet){
             fetchedNode = this->cached.nodePointer; // Start from cached node
             if(this->cached.idx > idx){ // idx below middle, iter forwards
                 int currIdx = this->cached.idx;
@@ -158,3 +157,5 @@ public:
     }
 
 };
+
+}
