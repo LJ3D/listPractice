@@ -11,6 +11,11 @@ private:
     size_t l = 0;
 
 public:
+    ~list(){
+        while(this->l>0){
+            this->remove(0);
+        }
+    }
 
     void append(T v){
         node<T>* cn = this->h;
