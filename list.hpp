@@ -69,17 +69,17 @@ public:
 
         }else if(idx > this->l/2){ // Go backwards if idx is greater than l/2, less iterations require
             node<T>* cn = this->t;
-            node<T>* bn = this->t;
+            node<T>* fn = this->t;
             for(int i=this->l-1; i>idx; i--){
                 cn = cn->l;
                 if(i>idx+1){
-                    bn = cn;
+                    fn = cn;
                 }
             }
-            bn->l = cn->l;
-            cn->l->n = bn;
+            fn->l = cn->l;
+            cn->l->n = fn;
             delete cn;
-            
+
         }else{
             node<T>* cn = this->h;
             node<T>* bn = this->h;
