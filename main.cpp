@@ -133,21 +133,33 @@ int main(){
         lst.remove(0);
     }
     auto removeFrontEnd = std::chrono::high_resolution_clock::now();
-    // ====== REMOVE BACK
+    // ====== PREPEND
+    auto prependStart = std::chrono::high_resolution_clock::now();
+    std::cout << "Prepending " << BENCHMARK_N << " elements..." << std::endl;
     for(int i=0; i<BENCHMARK_N; i++){
-        lst.append(i);
+        lst.prepend(i);
     }
+    auto prependEnd = std::chrono::high_resolution_clock::now();
+    // ====== REMOVE BACK
     auto removeBackStart = std::chrono::high_resolution_clock::now();
     std::cout << "Removing " << BENCHMARK_N << " elements at the back..." << std::endl;
     while(lst.len()){
         lst.remove(lst.len()-1);
     }
     auto removeBackEnd = std::chrono::high_resolution_clock::now();
+    // ====== INSERT
+    auto insertStart = std::chrono::high_resolution_clock::now();
+    std::cout << "Inserting " << BENCHMARK_N << " elements at random positions..." << std::endl;
+    for(int i=0; i<BENCHMARK_N; i++){
+        lst.insert(lst.len() ? rand()%lst.len() : 0, i);
+    }
+    auto insertEnd = std::chrono::high_resolution_clock::now();
     auto allEnd = std::chrono::high_resolution_clock::now();
 
     std::cout << "\n\n\n====================\n";
     std::cout << "Benchmark results with a list of " << BENCHMARK_N << " elements:" << std::endl;
     std::cout << "Append: " << std::chrono::duration_cast<std::chrono::milliseconds>(appendEnd-appendStart).count() << "ms" << std::endl;
+    std::cout << "Prepend: " << std::chrono::duration_cast<std::chrono::milliseconds>(prependEnd-prependStart).count() << "ms" << std::endl;
     std::cout << "Insert: " << "N/A" << std::endl;
     std::cout << "Get (sequential): " << std::chrono::duration_cast<std::chrono::milliseconds>(getSequentialEnd-getSequentialStart).count() << "ms" << std::endl;
     std::cout << "Get (sequential backwards): " << std::chrono::duration_cast<std::chrono::milliseconds>(getSequentialBackwardsEnd-getSequentialBackwardsStart).count() << "ms" << std::endl;

@@ -72,8 +72,6 @@ public:
 
     void append(T v){
         node<T>* newTail = new node<T>;
-        newTail->next = nullptr;
-        newTail->prev = nullptr;
         newTail->val = v;
         if(this->listLen==0){
             this->head = newTail;
@@ -86,11 +84,38 @@ public:
         this->listLen++;
     }
 
+    void prepend(T v){
+        node<T>* newHead = new node<T>;
+        newHead->val = v;
+        if(this->listLen==0){
+            this->head = newHead;
+            this->tail = newHead;
+        }else{
+            newHead->next = this->head;
+            this->head->prev = newHead;
+            this->head = newHead;
+        }
+        this->listLen++;
+    }
+
     void insert(T v, size_t idx){
         if(idx > this->listLen){
             throw std::out_of_range("Index out of range");
         }
-        // todo
+        if(idx==0){
+            this->prepend(v);
+        }else if(idx==this->listLen){
+            this->append(v);
+        }else{
+            node<T>* newNode = new node<T>;
+            newNode->val = v;
+            node<T>* nodeToInsertAt = this->getNode(idx);
+            nodeToInsertAt->prev->next = newNode;
+            newNode->prev = nodeToInsertAt->prev;
+            newNode->next = nodeToInsertAt;
+            nodeToInsertAt->prev = newNode;
+            this->listLen++;
+        }
     }
 
     T get(size_t idx){
