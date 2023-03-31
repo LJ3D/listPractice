@@ -1,129 +1,121 @@
 template <typename T>
 struct node{
-    node* n;
-    node* l;
-    T v;
+    node* next;
+    node* prev;
+    T val;
 };
 
 template <typename T>
 struct cachedNode{
-    node<T>* n;
+    node<T>* nodePointer;
     size_t idx;
 };
 
 template <typename T>
 class list{
 private:
-    node<T>* h = new node<T>;
-    node<T>* t = new node<T>;
+    node<T>* head = new node<T>;
+    node<T>* tail = new node<T>;
     cachedNode<T> cached;
-    size_t l = 0;
+    size_t listLen = 0;
+
+    int dist(int x, int y){
+        return (x-y)>0?x-y:x-y*-1;
+    }
+
+    /*
+        An optimised function to get a node's pointer given its idx in the list
+    */
+    node<T>* getNode(size_t idx){
+        node<T>* fetchedNode;
+        // Check if cached idx is closer to the target idx than the head or the tail
+        if(dist(this->cached.idx, idx) < idx || dist(this->cached.idx, idx) < this->listLen - idx){
+            bool backwards = this->cached.idx > idx;
+            int currIdx = this->cached.idx;
+            fetchedNode = this->cached.nodePointer;
+            while(currIdx != idx){
+                fetchedNode = (backwards)? fetchedNode->prev : fetchedNode->next;
+                currIdx += (backwards)? -1 : 1;
+            }
+        }else if(idx > this->listLen/2){ // idx above middle, iter backwards
+            fetchedNode = this->tail;
+            for(int i=0; i<listLen-idx-1; i++){
+                fetchedNode = fetchedNode->prev;
+            }
+        }else{
+            fetchedNode = this->head;
+            for(int i=0; i<idx; i++){
+                fetchedNode = fetchedNode->next;
+            }
+        }
+        return fetchedNode;
+    }
 
 public:
     ~list(){
-        while(this->l>0){
+        while(this->listLen){
             this->remove(0);
         }
     }
 
     void append(T v){
-        node<T>* nt = new node<T>;
-        nt->v = v;
-        if(this->l==0){
-            this->h = nt;
-            this->t = nt;
+        node<T>* newTail = new node<T>;
+        newTail->val = v;
+        if(this->listLen==0){
+            this->head = newTail;
+            this->tail = newTail;
         }else{
-            nt->l = this->t;
-            this->t->n = nt;
-            this->t = nt;
+            newTail->prev = this->tail;
+            this->tail->next = newTail;
+            this->tail = newTail;
         }
-        this->l++;
+        this->listLen++;
     }
 
     void insert(T v, size_t idx){
-        if(idx > this->l){
+        if(idx > this->listLen){
             throw std::out_of_range("Index out of range");
         }
-
         // todo
     }
 
     T get(size_t idx){
-        if(idx > this->l){
-            throw std::out_of_range("Index out of range");
-        }
-        if(this->cached.idx == idx-1){
-            this->cached.n = this->cached.n->n;
-            this->cached.idx = idx;
-            return this->cached.n->v;
-        }else if(this->cached.idx == idx+1){
-            this->cached.n = this->cached.n->l;
-            this->cached.idx = idx;
-            return this->cached.n->v;
-        }
-        node<T>* cn = (idx>this->l/2)?this->t:this->h;
-        if(idx > this->l/2){
-            for(int i=this->l-1; i>idx; i--){
-                cn = cn->l;
-            }
-        }else{
-            for(int i=0; i<idx; i++){
-                cn = cn->n;
-            }
-        }
-        this->cached.n = cn;
-        this->cached.idx = idx;
-
-        return cn->v;
+        return this->getNode(idx)->val;
     }
 
     void remove(size_t idx){
-        if(idx > this->l){
+        if(idx > this->listLen){
             throw std::out_of_range("Index out of range");
         }
-
         if(idx==0){ // Optimal way to remove first elem
-            node<T>* tmp = this->h;
-            this->h = this->h->n;
+            node<T>* tmp = this->head;
+            this->head = this->head->next;
             delete tmp;
-
-        }else if(idx==this->l-1){ // Optimal way to remove last elem
-            node<T>* tmp = this->t;
-            this->t = this->t->l;
+        }else if(idx==this->listLen-1){ // Optimal way to remove last elem
+            node<T>* tmp = this->tail;
+            this->tail = this->tail->prev;
             delete tmp;
-
-        }else if(idx > this->l/2){ // Go backwards if idx is greater than l/2, less iterations required
-            node<T>* cn = this->t;
-            node<T>* fn = this->t;
-            for(int i=this->l-1; i>idx; i--){
-                cn = cn->l;
-                if(i>idx+1){
-                    fn = cn;
-                }
-            }
-            fn->l = cn->l;
-            cn->l->n = fn;
-            delete cn;
-
         }else{
-            node<T>* cn = this->h;
-            node<T>* bn = this->h;
-            for(int i=0; i<idx; i++){
-                cn = cn->n;
-                if(i<idx-1){
-                    bn = cn;
-                }
-            }
-            bn->n = cn->n;
-            cn->n->l = bn;
-            delete cn;
+            node<T>* toRemove = this->getNode(idx);
+            std::cout << "remove debug info: " << toRemove->val << " " << toRemove->prev->val << " " << toRemove->next->val << "\n";
+            toRemove->prev->next = toRemove->next;
+            toRemove->next->prev = toRemove->prev;
+            delete toRemove;
         }
-
-        this->l--;
+        this->listLen--;
     }
 
     size_t len(){
-        return this->l;
+        return this->listLen;
+    }
+
+    void printDebugInfo(){
+        // Iterate from head to tail, printing each node's value and its prev and next values
+        node<T>* curr = this->head->next;
+        for(int i=0; i<this->listLen-3; i++){
+            std::cout << "Node: " << curr->val << " Prev: " << curr->prev->val << " Next: " << curr->next->val << "\n";
+            curr = curr->next;
+        }
     }
 
 };

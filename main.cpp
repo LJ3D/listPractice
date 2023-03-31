@@ -2,7 +2,68 @@
 #include <chrono>
 #include "list.hpp"
 
+int main(){
+    list<int> lst;
 
+    // Some basic tests of the list
+    for(int i=0; i<10; i++){
+        lst.append(i);
+    }
+
+    std::cout << "List length: " << lst.len() << std::endl;
+    std::cout << "List contents: ";
+    for(int i=0; i<lst.len(); i++){
+        std::cout << lst.get(i) << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Removing element at index 5" << std::endl;
+    lst.remove(5);
+
+    std::cout << "Removing element at index 0" << std::endl;
+    lst.remove(0);
+
+    std::cout << "List length: " << lst.len() << std::endl;
+    std::cout << "List contents: ";
+    for(int i=0; i<lst.len(); i++){
+        std::cout << lst.get(i) << " ";
+    }
+    std::cout << std::endl;
+
+    lst.printDebugInfo();
+
+    std::cout << "Removing all elements" << std::endl;
+    while(lst.len()){
+        lst.remove(0);
+    }
+
+    std::cout << "List length: " << lst.len() << std::endl;
+
+    std::cout << "Appending 100 random elements" << std::endl;
+    for(int i=0; i<100; i++){
+        lst.append(rand()%100);
+    }
+
+    std::cout << "Removing all elements which are divisible by 2" << std::endl;
+    for(int i=0; i<lst.len(); i++){
+        if(lst.get(i)%2==0){
+            lst.remove(i);
+            i--;
+        }
+    }
+
+    std::cout << "List length: " << lst.len() << std::endl;
+    std::cout << "List contents: ";
+    for(int i=0; i<lst.len(); i++){
+        std::cout << lst.get(i) << " ";
+    }
+
+}
+
+
+
+
+/*
 #define BENCHMARK_N 50000
 
 int main(){
@@ -51,24 +112,20 @@ int main(){
         lst.remove(idx);
     }
     auto removeEnd = std::chrono::high_resolution_clock::now();
-    // == Append but untimed, just for the next remove benchmark
-    std::cout << "Appending " << BENCHMARK_N << " elements (but not timing, this is just for the next benchmark)..." << std::endl;
+    // ====== REMOVE FRONT
     for(int i=0; i<BENCHMARK_N; i++){
         lst.append(i);
     }
-    // ====== REMOVE FRONT
     auto removeFrontStart = std::chrono::high_resolution_clock::now();
     std::cout << "Removing " << BENCHMARK_N << " elements at the front..." << std::endl;
     while(lst.len()){
         lst.remove(0);
     }
     auto removeFrontEnd = std::chrono::high_resolution_clock::now();
-    // == Another append just for the next benchmark
-    std::cout << "Appending " << BENCHMARK_N << " elements (but not timing, this is just for the next benchmark)..." << std::endl;
+    // ====== REMOVE BACK
     for(int i=0; i<BENCHMARK_N; i++){
         lst.append(i);
     }
-    // ====== REMOVE BACK
     auto removeBackStart = std::chrono::high_resolution_clock::now();
     std::cout << "Removing " << BENCHMARK_N << " elements at the back..." << std::endl;
     while(lst.len()){
@@ -76,7 +133,6 @@ int main(){
     }
     auto removeBackEnd = std::chrono::high_resolution_clock::now();
     auto allEnd = std::chrono::high_resolution_clock::now();
-
 
     std::cout << "\n\n\n====================\n";
     std::cout << "Benchmark results with a list of " << BENCHMARK_N << " elements:" << std::endl;
@@ -92,3 +148,4 @@ int main(){
     
     return 0;
 }
+*/
