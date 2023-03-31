@@ -2,7 +2,10 @@
 #include <chrono>
 #include "list.hpp"
 
+
+/*
 int main(){
+    srand(time(NULL));
     list<int> lst;
 
     // Some basic tests of the list
@@ -47,8 +50,14 @@ int main(){
     std::cout << "Removing all elements which are divisible by 2" << std::endl;
     for(int i=0; i<lst.len(); i++){
         if(lst.get(i)%2==0){
+            std::cout << "Removing element at index " << i << std::endl;
             lst.remove(i);
             i--;
+            std::cout << "New list contents: ";
+            for(int i=0; i<lst.len(); i++){
+                std::cout << lst.get(i) << " ";
+            }
+            std::cout << std::endl;
         }
     }
 
@@ -57,16 +66,18 @@ int main(){
     for(int i=0; i<lst.len(); i++){
         std::cout << lst.get(i) << " ";
     }
-
+    std::cout << std::endl;
 }
+*/
 
 
 
 
-/*
+
 #define BENCHMARK_N 50000
 
 int main(){
+    srand(time(NULL));
     list<int> lst;
 
     // ====== APPEND
@@ -82,7 +93,8 @@ int main(){
     std::cout << "Getting " << BENCHMARK_N << " elements at random positions and placing them in an array..." << std::endl;
     int* arr = new int[BENCHMARK_N];
     for(int i=0; i<BENCHMARK_N; i++){
-        arr[i] = lst.get(rand()%lst.len());
+        int idx = rand()%lst.len();
+        arr[i] = lst.get(idx);
     }
     delete arr;
     auto getRandomEnd = std::chrono::high_resolution_clock::now();
@@ -97,7 +109,7 @@ int main(){
     auto getSequentialEnd = std::chrono::high_resolution_clock::now();
     // GET SEQUENTIAL BACKWARDS
     auto getSequentialBackwardsStart = std::chrono::high_resolution_clock::now();
-    std::cout << "Getting " << BENCHMARK_N << " elements at sequential positions and placing them in an array..." << std::endl;
+    std::cout << "Getting " << BENCHMARK_N << " elements at sequential positions backwards and placing them in an array..." << std::endl;
     arr = new int[BENCHMARK_N];
     for(int i=0; i<BENCHMARK_N; i++){
         arr[i] = lst.get(BENCHMARK_N-i-1);
@@ -108,8 +120,7 @@ int main(){
     auto removeStart = std::chrono::high_resolution_clock::now();
     std::cout << "Removing " << BENCHMARK_N << " elements at random positions..." << std::endl;
     while(lst.len()){
-        int idx = rand()%lst.len();
-        lst.remove(idx);
+        lst.remove(rand()%lst.len());
     }
     auto removeEnd = std::chrono::high_resolution_clock::now();
     // ====== REMOVE FRONT
@@ -148,4 +159,3 @@ int main(){
     
     return 0;
 }
-*/

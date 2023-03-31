@@ -17,11 +17,8 @@ private:
     node<T>* head = new node<T>;
     node<T>* tail = new node<T>;
     cachedNode<T> cached;
+    bool cachedSet = false;
     size_t listLen = 0;
-
-    int dist(int x, int y){
-        return (x-y)>0?x-y:x-y*-1;
-    }
 
     /*
         An optimised function to get a node's pointer given its idx in the list
@@ -29,13 +26,25 @@ private:
     node<T>* getNode(size_t idx){
         node<T>* fetchedNode;
         // Check if cached idx is closer to the target idx than the head or the tail
-        if(dist(this->cached.idx, idx) < idx || dist(this->cached.idx, idx) < this->listLen - idx){
-            bool backwards = this->cached.idx > idx;
-            int currIdx = this->cached.idx;
-            fetchedNode = this->cached.nodePointer;
-            while(currIdx != idx){
-                fetchedNode = (backwards)? fetchedNode->prev : fetchedNode->next;
-                currIdx += (backwards)? -1 : 1;
+        if((
+                (this->cached.idx > idx && this->cached.idx-idx < idx)  // cached idx is closer to the target idx than the head
+            ||  (idx-this->cached.idx < this->listLen-idx) // cached idx is closer to the target idx than the tail
+            ) 
+            && this->cachedSet // cached node isnt invalid
+        ){
+            fetchedNode = this->cached.nodePointer; // Start from cached node
+            if(this->cached.idx > idx){ // idx below middle, iter forwards
+                int currIdx = this->cached.idx;
+                while(currIdx > idx){
+                    fetchedNode = fetchedNode->prev;
+                    currIdx--;
+                }
+            }else{
+                int currIdx = this->cached.idx;
+                while(currIdx < idx){
+                    fetchedNode = fetchedNode->next;
+                    currIdx++;
+                }
             }
         }else if(idx > this->listLen/2){ // idx above middle, iter backwards
             fetchedNode = this->tail;
@@ -48,6 +57,9 @@ private:
                 fetchedNode = fetchedNode->next;
             }
         }
+        this->cached.nodePointer = fetchedNode;
+        this->cached.idx = idx;
+        cachedSet = true;
         return fetchedNode;
     }
 
@@ -60,6 +72,8 @@ public:
 
     void append(T v){
         node<T>* newTail = new node<T>;
+        newTail->next = nullptr;
+        newTail->prev = nullptr;
         newTail->val = v;
         if(this->listLen==0){
             this->head = newTail;
@@ -99,6 +113,7 @@ public:
             node<T>* toRemove = this->getNode(idx);
             toRemove->prev->next = toRemove->next;
             toRemove->next->prev = toRemove->prev;
+            this->cached.nodePointer = toRemove->next;
             delete toRemove;
         }
         this->listLen--;
