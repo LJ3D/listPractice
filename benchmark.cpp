@@ -1,6 +1,5 @@
 #include <iostream>
 #include <chrono>
-#include <list> // For comparison
 #include "list.hpp"
 
 #define BENCHMARK_N 50000
@@ -91,16 +90,16 @@ int main(){
 
     std::cout << "\n\n\n====================\n";
     std::cout << "Benchmark results with a list of " << BENCHMARK_N << " elements:" << std::endl;
-    std::cout << "Append: " << cr::duration_cast<cr::milliseconds>(appendEnd-appendStart).count() << "ms" << std::endl;
-    std::cout << "Prepend: " << cr::duration_cast<cr::milliseconds>(prependEnd-prependStart).count() << "ms" << std::endl;
-    std::cout << "Insert: " << cr::duration_cast<cr::milliseconds>(insertEnd-insertStart).count() << "ms" << std::endl;
-    std::cout << "Get (sequential): " << cr::duration_cast<cr::milliseconds>(getSequentialEnd-getSequentialStart).count() << "ms" << std::endl;
-    std::cout << "Get (sequential backwards): " << cr::duration_cast<cr::milliseconds>(getSequentialBackwardsEnd-getSequentialBackwardsStart).count() << "ms" << std::endl;
-    std::cout << "Get (random positions): " << cr::duration_cast<cr::milliseconds>(getRandomEnd-getRandomStart).count() << "ms" << std::endl;
-    std::cout << "Remove (random positions): " << cr::duration_cast<cr::milliseconds>(removeEnd-removeStart).count() << "ms" << std::endl;
-    std::cout << "Remove (front): " << cr::duration_cast<cr::milliseconds>(removeFrontEnd-removeFrontStart).count() << "ms" << std::endl;
-    std::cout << "Remove (back): " << cr::duration_cast<cr::milliseconds>(removeBackEnd-removeBackStart).count() << "ms" << std::endl;
-    std::cout << "Total: " << cr::duration_cast<cr::milliseconds>(allEnd-allStart).count() << "ms" << std::endl;
+    std::cout << "Append: " << cr::duration_cast<cr::microseconds>(appendEnd-appendStart).count() << " microseconds" << std::endl;
+    std::cout << "Prepend: " << cr::duration_cast<cr::microseconds>(prependEnd-prependStart).count() << " microseconds" << std::endl;
+    std::cout << "Insert: " << cr::duration_cast<cr::microseconds>(insertEnd-insertStart).count() << " microseconds" << std::endl;
+    std::cout << "Get (sequential): " << cr::duration_cast<cr::microseconds>(getSequentialEnd-getSequentialStart).count() << " microseconds" << std::endl;
+    std::cout << "Get (sequential backwards): " << cr::duration_cast<cr::microseconds>(getSequentialBackwardsEnd-getSequentialBackwardsStart).count() << " microseconds" << std::endl;
+    std::cout << "Get (random positions): " << cr::duration_cast<cr::microseconds>(getRandomEnd-getRandomStart).count() << " microseconds" << std::endl;
+    std::cout << "Remove (random positions): " << cr::duration_cast<cr::microseconds>(removeEnd-removeStart).count() << " microseconds" << std::endl;
+    std::cout << "Remove (front): " << cr::duration_cast<cr::microseconds>(removeFrontEnd-removeFrontStart).count() << " microseconds" << std::endl;
+    std::cout << "Remove (back): " << cr::duration_cast<cr::microseconds>(removeBackEnd-removeBackStart).count() << " microseconds" << std::endl;
+    std::cout << "Total: " << cr::duration_cast<cr::microseconds>(allEnd-allStart).count() << " microseconds" << std::endl;
     
     return 0;
 }
