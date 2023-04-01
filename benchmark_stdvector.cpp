@@ -1,4 +1,4 @@
-#include <list>
+#include <vector>
 #include <chrono>
 #include <iostream>
 
@@ -13,7 +13,7 @@ int main()
 
     srand(time(NULL));
 
-    std::cout << "Benchmarking with " << BENCHMARK_N << " loops...\n";
+    std::cout << "Benchmarking vector with " << BENCHMARK_N << " loops...\n";
 
     // Used for get benchmarking
     int* arr = new int[BENCHMARK_N];
@@ -22,8 +22,8 @@ int main()
     duration<double, std::micro> d{};
 
     // Our list object (and an iterator)
-    std::list<int> lst;
-    std::list<int>::iterator li = lst.begin();
+    std::vector<int> lst;
+    std::vector<int>::iterator li = lst.begin();
 
     // APPEND
     sc::time_point t1 = sc::now();
@@ -35,30 +35,25 @@ int main()
 
     // RAND GET
     t1 = sc::now();
-    li = lst.begin();
     for (int i=0; i<BENCHMARK_N; i++) {
         int idx = rand()%lst.size();
-        li = lst.begin();
-        std::advance (li, idx);
-        arr[i] = *li;
+        arr[i] = lst[idx];
     }
     d = sc::now()-t1;
     std::cout << "Rand. get loop took " << d.count() << " us to run\n";
 
     // SEQ GET
     t1 = sc::now();
-    li = lst.begin();
     for (int i=0; i<BENCHMARK_N; i++) {
-        arr[i] = *li++;
+        arr[i] = lst[i];
     }
     d = sc::now()-t1;
     std::cout << "Seq. get loop took " << d.count() << " us to run\n";
 
     // SEQ GET BACKWARDS
     t1 = sc::now();
-    li = lst.end();
-    for (int i=0; i<BENCHMARK_N; i++) {
-        arr[i] = *--li;
+    for (int i=BENCHMARK_N-1; i>0; i--) {
+        arr[i] = lst[i];
     }
     d = sc::now()-t1;
     std::cout << "Backwards seq. get loop took " << d.count() << " us to run\n";
@@ -79,8 +74,9 @@ int main()
 
     // REMOVE FRONT
     t1 = sc::now();
+    li = lst.begin();
     for (int i=0; i<BENCHMARK_N; i++) {
-        lst.pop_front();
+        li = lst.erase (li);
     }
     d = sc::now()-t1;
     std::cout << "Remove front (pop_front) loop took " << d.count() << " us to run\n";
