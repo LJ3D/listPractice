@@ -1,5 +1,4 @@
 #include <list>
-#include <vector>
 #include <chrono>
 #include <iostream>
 
@@ -20,10 +19,11 @@ int main()
     int* arr = new int[BENCHMARK_N];
 
     // Here's how to construct a 0 microsecond duration
-    duration<double, std::micro> d{};
+    duration<double, std::milli> d{};
 
-    // Our list object.
+    // Our list object (and an iterator)
     std::list<int> lst;
+    std::list<int>::iterator li = lst.begin();
 
     // APPEND
     sc::time_point t1 = sc::now();
@@ -31,42 +31,7 @@ int main()
         lst.push_back (i);
     }
     d = sc::now()-t1;
-    std::cout << "Append loop took " << d.count() << " us to run\n";
-
-    // PREPEND
-    t1 = sc::now();
-    for (int i=0; i<BENCHMARK_N; i++) {
-        lst.push_front (i);
-    }
-    d = sc::now()-t1;
-    std::cout << "Prepend loop took " << d.count() << " us to run\n";
-
-    // INSERT (wherever)
-    t1 = sc::now();
-    std::list<int>::iterator li = lst.begin(); // You need to start with an iterator to insert
-    for (int i=0; i<BENCHMARK_N; i++) {
-        li = lst.insert (li, i);
-    }
-    d = sc::now()-t1;
-    std::cout << "Insert loop took " << d.count() << " us to run\n";
-
-    // SEQ GET
-    t1 = sc::now();
-    li = lst.begin();
-    for (int i=0; i<BENCHMARK_N; i++) {
-        arr[i] = *li++;
-    }
-    d = sc::now()-t1;
-    std::cout << "Seq. get loop took " << d.count() << " us to run\n";
-
-    // SEQ GET BACKWARDS
-    t1 = sc::now();
-    li = lst.end();
-    for (int i=0; i<BENCHMARK_N; i++) {
-        arr[i] = *--li;
-    }
-    d = sc::now()-t1;
-    std::cout << "Backwards seq. get loop took " << d.count() << " us to run\n";
+    std::cout << "Append loop took " << d.count() << " ms to run\n";
 
     // RAND GET
     t1 = sc::now();
@@ -78,31 +43,25 @@ int main()
         arr[i] = *li;
     }
     d = sc::now()-t1;
-    std::cout << "Rand. get loop took " << d.count() << " us to run\n";
+    std::cout << "Rand. get loop took " << d.count() << " ms to run\n";
 
-    delete arr; // done with arr.
-
-    // REMOVE BACK
+    // SEQ GET
     t1 = sc::now();
+    li = lst.begin();
     for (int i=0; i<BENCHMARK_N; i++) {
-        lst.pop_back();
+        arr[i] = *li++;
     }
     d = sc::now()-t1;
-    std::cout << "Remove back (pop_back) loop took " << d.count() << " us to run\n";
+    std::cout << "Seq. get loop took " << d.count() << " ms to run\n";
 
-    // Refill the list:
-    for (int i=0; i<BENCHMARK_N; i++) { lst.push_back (i); }
-
-    // REMOVE FRONT
+    // SEQ GET BACKWARDS
     t1 = sc::now();
+    li = lst.end();
     for (int i=0; i<BENCHMARK_N; i++) {
-        lst.pop_front();
+        arr[i] = *--li;
     }
     d = sc::now()-t1;
-    std::cout << "Remove front (pop_front) loop took " << d.count() << " us to run\n";
-
-    // Refill the list:
-    for (int i=0; i<BENCHMARK_N; i++) { lst.push_back (i); }
+    std::cout << "Backwards seq. get loop took " << d.count() << " ms to run\n";
 
     // REMOVE RAND
     t1 = sc::now();
@@ -113,12 +72,49 @@ int main()
         lst.erase (li);
     }
     d = sc::now()-t1;
-    std::cout << "Remove random loop took " << d.count() << " us to run\n";
+    std::cout << "Remove random loop took " << d.count() << " ms to run\n";
+
+    // Refill the list:
+    for (int i=0; i<BENCHMARK_N; i++) { lst.push_back (i); }
+
+    // REMOVE FRONT
+    t1 = sc::now();
+    for (int i=0; i<BENCHMARK_N; i++) {
+        lst.pop_front();
+    }
+    d = sc::now()-t1;
+    std::cout << "Remove front (pop_front) loop took " << d.count() << " ms to run\n";
+
+    // PREPEND
+    t1 = sc::now();
+    for (int i=0; i<BENCHMARK_N; i++) {
+        lst.insert (lst.begin(), i);
+    }
+    d = sc::now()-t1;
+    std::cout << "Prepend loop took " << d.count() << " ms to run\n";
+
+    // REMOVE BACK
+    t1 = sc::now();
+    for (int i=0; i<BENCHMARK_N; i++) {
+        lst.pop_back();
+    }
+    d = sc::now()-t1;
+    std::cout << "Remove back (pop_back) loop took " << d.count() << " ms to run\n";
+
+    // INSERT (wherever)
+    t1 = sc::now();
+    li = lst.begin(); // You need to start with an iterator to insert
+    for (int i=0; i<BENCHMARK_N; i++) {
+        li = lst.insert (li, i);
+    }
+    d = sc::now()-t1;
+    std::cout << "Insert loop took " << d.count() << " ms to run\n";
+
+    delete arr; // done with arr.
 
     sc::time_point tf = sc::now();
 
-
     d = tf - t0; // by using a duration, you can decide the time unit
-    std::cout << "Entire program took " << d.count() << " us to run\n";
+    std::cout << "Entire program took " << d.count() << " ms to run\n";
     return 0;
 }
