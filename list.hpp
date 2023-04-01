@@ -79,6 +79,10 @@ public:
         this->listLen++;
     }
 
+    void push_back(T v){
+        this->append(v);
+    }
+
     void prepend(T v){
         node<T>* newHead = new node<T>;
         newHead->val = v;
@@ -92,6 +96,10 @@ public:
         }
         this->listLen++;
         this->cached.idx++;
+    }
+
+    void push_front(T v){
+        this->prepend(v);
     }
 
     void insert(T v, size_t idx){
