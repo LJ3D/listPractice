@@ -33,16 +33,12 @@ private:
             && this->cachedSet){
             fetchedNode = this->cached.nodePointer; // Start from cached node
             if(this->cached.idx > idx){
-                int currIdx = this->cached.idx;
-                while(currIdx > idx){
-                    fetchedNode = fetchedNode->prev;
-                    currIdx--;
-                }
+               for(int i=this->cached.idx; i>idx; i--){
+                   fetchedNode = fetchedNode->prev;
+               }
             }else{
-                int currIdx = this->cached.idx;
-                while(currIdx < idx){
+                for(int i=this->cached.idx; i<idx; i++){
                     fetchedNode = fetchedNode->next;
-                    currIdx++;
                 }
             }
         }else if(idx > this->listLen/2){ // idx above middle, iter backwards
