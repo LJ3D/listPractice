@@ -88,7 +88,7 @@ int main(){
     auto insertEnd = cr::high_resolution_clock::now();
     auto allEnd = cr::high_resolution_clock::now();
 
-    std::cout << "\n\n\n====================\n";
+    std::cout << "======================" << std::endl;
     std::cout << "Benchmark results with a list of " << BENCHMARK_N << " elements:" << std::endl;
     std::cout << "Append: " << cr::duration_cast<cr::microseconds>(appendEnd-appendStart).count() << " microseconds" << std::endl;
     std::cout << "Prepend: " << cr::duration_cast<cr::microseconds>(prependEnd-prependStart).count() << " microseconds" << std::endl;
