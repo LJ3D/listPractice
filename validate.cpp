@@ -72,6 +72,12 @@ int main(){
         s_lst.erase(s_it);
     }
 
+    // And prepend some stuff too
+    for(int i=0; i<VALIDATE_N/2; i++){
+        lst.prepend(i);
+        s_lst.push_front(i);
+    }
+
     // Now get random elements from each list and place them into an array again
     s_it = s_lst.begin();
     arr = new int[VALIDATE_N];
@@ -87,10 +93,10 @@ int main(){
     delete arr2;
     delete arr;
     if(!valid){
-        std::cout << "ERROR: Random element validation failed after removal!" << std::endl;
+        std::cout << "ERROR: Random element validation failed after removal and prepending!" << std::endl;
         return 1;
     }
-    std::cout << "Random element validation successful after removal!" << std::endl;
+    std::cout << "Random element validation successful after removal and prepending!" << std::endl;
 
     return 0;
 }
