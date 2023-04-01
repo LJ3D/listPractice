@@ -113,7 +113,7 @@ int main()
         lst.erase (li);
     }
     d = sc::now()-t1;
-    std::cout << "Remove back loop took " << d.count() << " us to run\n";
+    std::cout << "Remove random loop took " << d.count() << " us to run\n";
 
     sc::time_point tf = sc::now();
 
