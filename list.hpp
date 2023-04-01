@@ -95,6 +95,7 @@ public:
             this->head = newHead;
         }
         this->listLen++;
+        this->cached.idx++;
     }
 
     void insert(T v, size_t idx){
@@ -114,6 +115,9 @@ public:
             newNode->next = nodeToInsertAt;
             nodeToInsertAt->prev = newNode;
             this->listLen++;
+            if(idx < this->cached.idx){
+                this->cached.idx++;
+            }
         }
     }
 
