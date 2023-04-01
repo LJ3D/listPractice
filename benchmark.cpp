@@ -1,78 +1,7 @@
 #include <iostream>
 #include <chrono>
+#include <list> // For comparison
 #include "list.hpp"
-
-
-/*
-int main(){
-    srand(time(NULL));
-    list<int> lst;
-
-    // Some basic tests of the list
-    for(int i=0; i<10; i++){
-        lst.append(i);
-    }
-
-    std::cout << "List length: " << lst.len() << std::endl;
-    std::cout << "List contents: ";
-    for(int i=0; i<lst.len(); i++){
-        std::cout << lst.get(i) << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "Removing element at index 5" << std::endl;
-    lst.remove(5);
-
-    std::cout << "Removing element at index 0" << std::endl;
-    lst.remove(0);
-
-    std::cout << "List length: " << lst.len() << std::endl;
-    std::cout << "List contents: ";
-    for(int i=0; i<lst.len(); i++){
-        std::cout << lst.get(i) << " ";
-    }
-    std::cout << std::endl;
-
-    lst.printDebugInfo();
-
-    std::cout << "Removing all elements" << std::endl;
-    while(lst.len()){
-        lst.remove(0);
-    }
-
-    std::cout << "List length: " << lst.len() << std::endl;
-
-    std::cout << "Appending 100 random elements" << std::endl;
-    for(int i=0; i<100; i++){
-        lst.append(rand()%100);
-    }
-
-    std::cout << "Removing all elements which are divisible by 2" << std::endl;
-    for(int i=0; i<lst.len(); i++){
-        if(lst.get(i)%2==0){
-            std::cout << "Removing element at index " << i << std::endl;
-            lst.remove(i);
-            i--;
-            std::cout << "New list contents: ";
-            for(int i=0; i<lst.len(); i++){
-                std::cout << lst.get(i) << " ";
-            }
-            std::cout << std::endl;
-        }
-    }
-
-    std::cout << "List length: " << lst.len() << std::endl;
-    std::cout << "List contents: ";
-    for(int i=0; i<lst.len(); i++){
-        std::cout << lst.get(i) << " ";
-    }
-    std::cout << std::endl;
-}
-*/
-
-
-
-
 
 #define BENCHMARK_N 50000
 
