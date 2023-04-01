@@ -122,6 +122,14 @@ public:
         this->prepend(v);
     }
 
+    void pop_back(){
+        this->remove(this->listLen-1);
+    }
+
+    void pop_front(){
+        this->remove(0);
+    }
+
     void insert(T v, size_t idx){
         if(idx > this->listLen){
             throw std::out_of_range("Index out of range");
