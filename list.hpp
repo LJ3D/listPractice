@@ -32,7 +32,7 @@ private:
             || (idx-this->cached.idx < this->listLen-idx)) // cached idx is closer to the target idx than the tail 
             && this->cachedSet){
             fetchedNode = this->cached.nodePointer; // Start from cached node
-            if(this->cached.idx > idx){ // idx below middle, iter forwards
+            if(this->cached.idx > idx){
                 int currIdx = this->cached.idx;
                 while(currIdx > idx){
                     fetchedNode = fetchedNode->prev;
@@ -108,14 +108,17 @@ public:
             this->append(v);
         }else{
             node<T>* newNode = new node<T>;
-            newNode->val = v;
             node<T>* nodeToInsertAt = this->getNode(idx);
-            nodeToInsertAt->prev->next = newNode;
+            newNode->val = v; // Set the new node's value
+            // Set the new node's pointers
             newNode->prev = nodeToInsertAt->prev;
             newNode->next = nodeToInsertAt;
+            // Set the node before and after the new node's pointers to point to the new node
+            nodeToInsertAt->prev->next = newNode;
             nodeToInsertAt->prev = newNode;
+            // Update list length and cache idx if necessary
             this->listLen++;
-            if(idx < this->cached.idx){
+            if(idx <= this->cached.idx){
                 this->cached.idx++;
             }
         }
@@ -145,19 +148,13 @@ public:
             delete toRemove;
         }
         this->listLen--;
+        if(idx < this->cached.idx){
+            this->cached.idx--;
+        }
     }
 
     size_t len(){
         return this->listLen;
-    }
-
-    void printDebugInfo(){
-        // Iterate from head to tail, printing each node's value and its prev and next values
-        node<T>* curr = this->head->next;
-        for(int i=0; i<this->listLen-3; i++){
-            std::cout << "Node: " << curr->val << " Prev: " << curr->prev->val << " Next: " << curr->next->val << "\n";
-            curr = curr->next;
-        }
     }
 
 };
