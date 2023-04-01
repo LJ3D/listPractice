@@ -1,16 +1,12 @@
 #include <iostream>
 #include <chrono>
+namespace cr = std::chrono;
 #include "list.hpp"
 
 #define BENCHMARK_N 50000
 
 int main(){
-    namespace cr = std::chrono;
-
-    srand(time(NULL));
     LJLIST::list<int> lst;
-
-
 
     // ====== APPEND
     auto allStart = cr::high_resolution_clock::now();
@@ -56,7 +52,7 @@ int main(){
     }
     auto removeEnd = cr::high_resolution_clock::now();
     // ====== REMOVE FRONT
-    for(int i=0; i<BENCHMARK_N; i++){
+    for(int i=0; i<BENCHMARK_N; i++){ // Append some new data for testing (the list is currently empty)
         lst.append(i);
     }
     auto removeFrontStart = cr::high_resolution_clock::now();
