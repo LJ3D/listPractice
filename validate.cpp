@@ -3,22 +3,6 @@
 #include <list> // For comparison
 #include "list.hpp"
 
-bool validateLists(LJLIST::list<int> l_list, std::list<int> s_list){
-    if(l_list.len() != s_list.size()){
-        std::cout << "ERROR: " << l_list.len() << " != " << s_list.size() << std::endl;
-        return false;
-    }
-    std::list<int>::iterator s_it = s_list.begin();
-    for(int i=0; i<l_list.len(); i++){
-        if(l_list.get(i) != *s_it){
-            std::cout << "ERROR: " << l_list.get(i) << " != " << *s_it << std::endl;
-            return false;
-        }
-        s_it++;
-    }
-    return true;
-}
-
 template<typename T>
 bool arrCmp(T* arr1, T* arr2, int len){
     for(int i=0; i<len; i++){
