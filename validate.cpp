@@ -1,10 +1,18 @@
+
+
+/*
+    ========================================
+    This is weird and messy, but it works :)
+    ========================================
+*/
+
+
 #include <iostream>
 #include <chrono>
 #include <list> // For comparison
 #include "list.hpp"
 
 #define VALIDATE_N 1000
-
 
 template<typename T>
 bool arrCmp(T* arr1, T* arr2, int len){
@@ -15,7 +23,6 @@ bool arrCmp(T* arr1, T* arr2, int len){
     }
     return true;
 }
-
 
 bool validateLists(LJLIST::list<int>& lst, std::list<int>& s_lst){
     std::list<int>::iterator s_it = s_lst.begin();
