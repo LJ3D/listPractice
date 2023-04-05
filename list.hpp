@@ -186,7 +186,7 @@ public:
             toRemove->prev->next = toRemove->next; // Set the previous nodes "next" to skip the toRemove node
             toRemove->next->prev = toRemove->prev; // And set the next nodes "prev" to also skip over the toRemove node
             if(this->cached.idx == idx){ // If the cached node is the one being removed, then set the cache to the next node
-                this->cached.nodePointer = toRemove == this->tail ? toRemove->prev : toRemove->next;
+                this->cached.nodePointer = (toRemove == this->tail)? toRemove->prev : toRemove->next;
             }
             delete toRemove; // Now that no nodes are pointing to the toRemove node the memory can be freed
         }
