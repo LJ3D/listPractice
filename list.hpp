@@ -8,8 +8,8 @@ struct node{
 };
 
 /*
-    Caching a node without knowings where it is in the list would be pointless,
-    so this struct simply adds an idx.
+    For a cached node pointer to be useful, its place in the list must also be stored
+    Also storing a boolean to indicate if the cache is set to a valid value or not
 */
 template <typename T>
 struct cachedNode{
