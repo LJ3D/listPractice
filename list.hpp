@@ -15,6 +15,7 @@ template <typename T>
 struct cachedNode{
     node<T>* nodePointer;
     size_t idx;
+    bool set = false;
 };
 
 template <typename T>
@@ -31,7 +32,6 @@ private:
         This allows for speedy sequential access to the list without the end user of this class having to worry about using an iterator
     */
     cachedNode<T> cached;
-    bool cachedSet = false;
 
     /*
         An optimised function to get a node's pointer given its idx in the list,
@@ -42,7 +42,7 @@ private:
         // Check if cached idx is closer to the target idx than the head or the tail
         if(((this->cached.idx > idx && this->cached.idx-idx < idx)  // Cached idx is closer to the target idx than the head
                      || (idx-this->cached.idx < this->listLen-idx)) // Cached idx is closer to the target idx than the tail 
-                                               && this->cachedSet){ // And the cache is actually set
+                                               && this->cached.set){ // And the cache is actually set
             fetchedNode = this->cached.nodePointer; // Start from cached node
             if(this->cached.idx > idx){ // Cached idx is greater than the target idx, so go backwards
                for(int i=this->cached.idx; i>idx; i--){
@@ -67,7 +67,7 @@ private:
         // Update the cache:
         this->cached.nodePointer = fetchedNode;
         this->cached.idx = idx;
-        cachedSet = true; // Setting this every time getNode is called? Maybe its optimised out, but even if its a waste of resources its a tiny fraction of the total so who cares
+        this->cached.set = true;
         return fetchedNode;
     }
 
