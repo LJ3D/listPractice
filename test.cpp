@@ -3,11 +3,11 @@
 
 
 int main(){
-    srand(time(NULL));
+
     LJLIST::list<int> lst;
 
-    for(int i=0; i<50; i++){
-        lst.append(rand()%100);
+    for(int i=0; i<10; i++){
+        lst.append(rand()%10);
     }
 
     // Print list contents
@@ -16,15 +16,15 @@ int main(){
     }
     std::cout << std::endl;
 
-    // Sort list
-    lst.sort();
+    for(int i=0; i<3; i++){
+        lst.insert(-1-i, 5);
+    }
 
     // Print list contents
     for(int i=0; i<lst.len(); i++){
         std::cout << lst.get(i) << ", ";
     }
     std::cout << std::endl;
-
 
     return 0;
 }
