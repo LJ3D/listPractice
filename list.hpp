@@ -1,3 +1,5 @@
+#include <functional>
+
 namespace LJLIST{
 
 template <typename T>
@@ -69,6 +71,54 @@ private:
         this->cached.idx = idx;
         this->cached.set = true;
         return fetchedNode;
+    }
+
+    /*
+        Quicksort implementation
+        Uses function pointer to allow for sorting in ascending or descending order
+    */
+    void qs(int startIdx, int endIdx, std::function<bool(T,T)> f) {
+        if (endIdx - startIdx < 2) {
+            return;
+        }
+
+        // Use last element as pivot
+        int pivotIdx = endIdx - 1;
+        T pivot = this->get(pivotIdx);
+
+        // Compare first two elements with each other
+        T first = this->get(startIdx);
+        T second = this->get(startIdx + 1);
+        if(!f(first, second)) {
+            *(this->getPointer(startIdx)) = second;
+            *(this->getPointer(startIdx + 1)) = first;
+        }
+
+        // 2 elements left = done
+        if(endIdx - startIdx == 2){
+            return;
+        }
+
+        // Iterate through the list comparing with the pivot
+        // If the element is less than the pivot, swap it with the element at sortedIdx
+        int sortedIdx = startIdx;
+        for(int i=sortedIdx; i<endIdx; i++){
+            if(f(this->get(i), pivot)){
+                T tmp = this->get(i);
+                *(this->getPointer(i)) = this->get(sortedIdx);
+                *(this->getPointer(sortedIdx)) = tmp;
+                sortedIdx++;
+            }
+        }
+
+        // Swap the pivot with sortedIdx
+        T tmp = this->get(sortedIdx);
+        *(this->getPointer(sortedIdx)) = pivot;
+        *(this->getPointer(pivotIdx)) = tmp;
+
+        // Call recursively on the two new sublists
+        this->qs(startIdx, sortedIdx, f);
+        this->qs(sortedIdx + 1, endIdx, f);
     }
 
 public:
@@ -200,6 +250,13 @@ public:
         return this->listLen;
     }
 
+    /*
+        Sorts the entire list, optionally takes a function param to change the sorting order
+        Function defaults to ascending order
+    */
+    void sort(std::function<bool(T,T)> f = [](T a, T b){return a<b;}) {
+        this->qs(0, this->listLen, f);
+    }
 };
 
 }
