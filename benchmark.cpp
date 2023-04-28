@@ -82,6 +82,11 @@ int main(){
         lst.insert(lst.len() ? rand()%lst.len() : 0, i);
     }
     auto insertEnd = cr::high_resolution_clock::now();
+    // ====== SORT
+    auto sortStart = cr::high_resolution_clock::now();
+    std::cout << "Sorting " << BENCHMARK_N << " elements..." << std::endl;
+    lst.sort();
+    auto sortEnd = cr::high_resolution_clock::now();
     auto allEnd = cr::high_resolution_clock::now();
 
     std::cout << "======================" << std::endl;
@@ -95,6 +100,7 @@ int main(){
     std::cout << "Remove (random positions): " << cr::duration_cast<cr::microseconds>(removeEnd-removeStart).count() << " microseconds" << std::endl;
     std::cout << "Remove (front): " << cr::duration_cast<cr::microseconds>(removeFrontEnd-removeFrontStart).count() << " microseconds" << std::endl;
     std::cout << "Remove (back): " << cr::duration_cast<cr::microseconds>(removeBackEnd-removeBackStart).count() << " microseconds" << std::endl;
+    std::cout << "Sort: " << cr::duration_cast<cr::microseconds>(sortEnd-sortStart).count() << " microseconds" << std::endl;
     std::cout << "Total: " << cr::duration_cast<cr::microseconds>(allEnd-allStart).count() << " microseconds" << std::endl;
     
     return 0;
