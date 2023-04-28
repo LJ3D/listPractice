@@ -200,6 +200,30 @@ public:
         return this->listLen;
     }
 
+    // Basically insertion sort
+    void sort(bool backwards=false){
+        if(this->listLen < 2){ return; }
+        for(int i=0; i<this->listLen; i++){
+            if(backwards){
+                for(int j=0; j<i; j++){
+                    if(this->get(i) > this->get(j)){
+                        this->insert(this->get(i), j);
+                        this->remove(i+1);
+                        break;
+                    }
+                }
+            }else{
+                for(int j=0; j<i; j++){
+                    if(this->get(i) < this->get(j)){
+                        this->insert(this->get(i), j);
+                        this->remove(i+1);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
 };
 
 }
