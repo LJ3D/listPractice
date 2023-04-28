@@ -86,6 +86,11 @@ void appendTest(LJLIST::list<int>& lst, std::list<int>& s_lst){
     }
 }
 
+void sortTest(LJLIST::list<int>& lst, std::list<int>& s_lst){
+    lst.sort();
+    s_lst.sort();
+}
+
 
 int main(){
     LJLIST::list<int> lst;
@@ -116,6 +121,15 @@ int main(){
         return 1;
     }else{
         std::cout << "PASS: Insert random test passed" << std::endl;
+    }
+
+    // Then run the sort test to sort the list
+    sortTest(lst, s_lst);
+    if(!validateLists(lst, s_lst)){
+        std::cout << "ERR: Sort test failed" << std::endl;
+        return 1;
+    }else{
+        std::cout << "PASS: Sort test passed" << std::endl;
     }
 
     // Then run the pop front test to pop VALIDATE_N elements from the front of the list
