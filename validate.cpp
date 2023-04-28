@@ -96,7 +96,6 @@ int main(){
     LJLIST::list<int> lst;
     std::list<int> s_lst;
 
-    // First run the append test to fill the list with VALIDATE_N elements
     appendTest(lst, s_lst);
     if(!validateLists(lst, s_lst)){
         std::cout << "ERR: Append test failed" << std::endl;
@@ -105,7 +104,6 @@ int main(){
         std::cout << "PASS: Append test passed" << std::endl;
     }
 
-    // Then run the delete random test to delete VALIDATE_N elements from the list
     deleteRandomTest(lst, s_lst);
     if(!validateLists(lst, s_lst)){
         std::cout << "ERR: Delete random test failed" << std::endl;
@@ -114,7 +112,6 @@ int main(){
         std::cout << "PASS: Delete random test passed" << std::endl;
     }
 
-    // Then run the insert random test to insert VALIDATE_N elements into the list
     insertRandomTest(lst, s_lst);
     if(!validateLists(lst, s_lst)){
         std::cout << "ERR: Insert random test failed" << std::endl;
@@ -123,7 +120,6 @@ int main(){
         std::cout << "PASS: Insert random test passed" << std::endl;
     }
 
-    // Then run the sort test to sort the list
     sortTest(lst, s_lst);
     if(!validateLists(lst, s_lst)){
         std::cout << "ERR: Sort test failed" << std::endl;
@@ -132,7 +128,6 @@ int main(){
         std::cout << "PASS: Sort test passed" << std::endl;
     }
 
-    // Then run the pop front test to pop VALIDATE_N elements from the front of the list
     popFrontTest(lst, s_lst);
     if(!validateLists(lst, s_lst)){
         std::cout << "ERR: Pop front test failed" << std::endl;
@@ -141,7 +136,6 @@ int main(){
         std::cout << "PASS: Pop front test passed" << std::endl;
     }
 
-    // Then run the prepend test to prepend VALIDATE_N elements to the front of the list
     prependTest(lst, s_lst);
     if(!validateLists(lst, s_lst)){
         std::cout << "ERR: Prepend test failed" << std::endl;
@@ -150,7 +144,6 @@ int main(){
         std::cout << "PASS: Prepend test passed" << std::endl;
     }
 
-    // Then run the pop back test to pop VALIDATE_N elements from the back of the list
     popBackTest(lst, s_lst);
     if(!validateLists(lst, s_lst)){
         std::cout << "ERR: Pop back test failed" << std::endl;
