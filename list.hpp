@@ -42,7 +42,7 @@ private:
     node<T>* getNode(size_t idx){
         node<T>* fetchedNode;
         // Check if cached idx is closer to the target idx than the head or the tail
-        if(((this->cached.idx > idx && this->cached.idx-idx < idx)  // Cached idx is closer to the target idx than the head
+        if(((this->cached.idx > idx && this->cached.idx-idx < idx)  // Cached idx is closer to the target idx than the head OR
                      || (idx-this->cached.idx < this->listLen-idx)) // Cached idx is closer to the target idx than the tail 
                                                && this->cached.set){ // And the cache is actually set
             fetchedNode = this->cached.nodePointer; // Start from cached node
